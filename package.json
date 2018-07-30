@@ -1,0 +1,27 @@
+{
+  "name": "wfreq",
+  "version": "0.1.0",
+  "main": "index.js",
+  "license": "MIT",
+  "preferGlobal": true,
+  "bin": "./index.js",
+  "keywords": [
+    "word",
+    "frequency"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ricardocanelas/wfreq.git"
+  },
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "commander": "^2.16.0",
+    "easy-pdf-parser": "^0.0.4",
+    "epub": "^0.2.0",
+    "file-type": "^8.1.0",
+    "inquirer": "^6.0.0",
+    "lodash": "^4.17.10",
+    "mobi": "^0.0.1",
+    "striptags": "^3.1.1"
+  }
+}
