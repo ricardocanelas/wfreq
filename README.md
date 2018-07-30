@@ -1,6 +1,12 @@
 This utility allows you to get frequency of words from a file.
 
-Version: 0.1 (beta)
+[![Build Status](https://travis-ci.org/ricardocanelas/wfreq.svg)](https://travis-ci.org/ricardocanelas/wfreq/)
+<a href="https://www.npmjs.com/package/wfreq">
+  <img src="https://img.shields.io/npm/dt/wfreq.svg" alt="NPM Downloads" />
+</a>
+<a href="https://www.npmjs.com/package/wfreq">
+  <img src="https://img.shields.io/npm/v/wfreq.svg" alt="NPM Version" />
+</a> (beta)
 
 # Features
 
