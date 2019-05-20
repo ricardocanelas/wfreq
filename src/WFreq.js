@@ -62,6 +62,7 @@ class WFreq {
         str = str.replace(/\.{3}/gm, "")
         str = str.replace(/\-{2}/gm, "")
         str = str.replace(/\'/g, "\"")
+        str = str.replace(/\’/g, "\"")
         str = str.replace(/[\“\”]/g, "")
         str = str.replace(/[\.\,\;\:\!\?\(\)\&]/g, ' ');
         return str

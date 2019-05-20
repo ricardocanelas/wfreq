@@ -14,14 +14,27 @@
     "url": "git://github.com/ricardocanelas/wfreq.git"
   },
   "dependencies": {
+    "@google-cloud/translate": "^2.1.3",
+    "@k3rn31p4nic/google-translate-api": "^1.0.5",
     "chalk": "^2.4.1",
     "commander": "^2.16.0",
+    "directory-tree": "^2.2.1",
     "easy-pdf-parser": "^0.0.4",
     "epub": "^0.2.0",
+    "express": "^4.16.4",
     "file-type": "^8.1.0",
+    "google-translate-api": "^2.3.0",
     "inquirer": "^6.0.0",
     "lodash": "^4.17.10",
     "mobi": "^0.0.1",
-    "striptags": "^3.1.1"
+    "striptags": "^3.1.1",
+    "webpack": "^4.28.3",
+    "webpack-dev-server": "^3.1.14"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  },
+  "scripts": {
+    "serve": "nodemon ./server.js"
   }
 }

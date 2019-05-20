@@ -35,6 +35,13 @@ wfreq ./myfile.txt
 - Limit
 - Ignore
 - Output
+- Serve
+
+## Server
+
+```
+wfreq serve
+```
 
 ## Min
 
