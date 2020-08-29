@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>WFrequency</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+      integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+      crossorigin="anonymous"
+    />
+    <!-- development version, includes helpful console warnings -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!-- production version, optimized for size and speed -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue"></script> -->
+    <style>
+      nav {
+        padding: 12px;
+        border-bottom: 1px solid #ccc;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <nav class="d-flex">
+        <div class="form-group mb-0">
+          <label class="sr-only" for="fieldMin">File</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">File:</div>
+            </div>
+            <select
+              v-on:change="processFile"
+              class="form-control"
+              style="width: auto"
+              v-model="form.file"
+            >
+              <option value="">Choose a file</option>
+              <option
+                v-for="item in dirFlat"
+                :key="item.name"
+                v-bind:value="item.path"
+              >
+                {{ item.path }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group ml-3 mb-0">
+          <label class="sr-only" for="fieldMin">Username</label>
+          <div class="input-group">
+            <div class="input-group-prepend">
+              <div class="input-group-text">Min:</div>
+            </div>
+            <input
+              type="text"
+              class="form-control"
+              id="fieldMin"
+              placeholder="Minimium"
+              v-model="form.min"
+              style="width: 64px"
+            />
+          </div>
+        </div>
+      </nav>
+
+      <div class="container-fluid mt-3">
+        <div v-if="file.processing" class="alert alert-info mt-3" role="alert">
+          Wait a second! It's Processing...
+        </div>
+        <div v-if="file.error" class="alert alert-warning mt-3" role="warning">
+          Something happened
+        </div>
+
+        <table
+          class="table table-striped table-bordered table-hover table-sm"
+          style="width: auto"
+          v-if="file.list.length"
+        >
+          <thead class="thead-dark">
+            <tr>
+              <th>Word</th>
+              <th style="width: 100px">Frequency</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="item in file.list" :key="item.label">
+              <td>{{ item.label }}</td>
+              <td>{{ item.counter }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script>
+      var app = new Vue({
+        el: "#app",
+
+        data: {
+          form: {
+            file: "",
+            min: 5,
+          },
+          file: {
+            error: null,
+            processing: false,
+            list: [],
+          },
+          dir: [],
+        },
+
+        methods: {
+          processFile: function (e) {
+            var file = e.target.value;
+
+            if (file === "" || !file) return;
+
+            var wait = setTimeout(() => {
+              this.file.processing = true;
+            }, 1000);
+
+            var qs = `min=${this.form.min}`;
+
+            fetch("/process/" + file + "?" + qs)
+              .then((res) => res.json())
+              .then((data) => {
+                clearTimeout(wait);
+                this.file.processing = false;
+                console.log(data.data);
+                this.file.list = data.data;
+              })
+              .catch(() => {
+                clearTimeout(wait);
+                this.file.processing = false;
+                this.file.error = error;
+              });
+          },
+        },
+
+        computed: {
+          dirFlat: function () {
+            function flatArr(list) {
+              return list.reduce((acc, cur, index) => {
+                // ----------
+                // your logic
+
+                if (cur.children) {
+                  var children = flatArr(cur.children);
+                  acc = acc.concat([...children]);
+                } else {
+                  var obj = {
+                    name: cur.name,
+                    path: cur.path,
+                  };
+
+                  acc.push(obj);
+                }
+
+                // ----------
+                return acc;
+              }, []);
+            }
+
+            return this.dir ? flatArr(this.dir) : [];
+          },
+        },
+
+        created: function () {
+          fetch("/dir")
+            .then((res) => res.json())
+            .then((result) => {
+              this.dir = result.data.children;
+            })
+            .catch(() => {
+              console.log(
+                "Something wrong happened when tried to load the directories"
+              );
+            });
+        },
+      });
+    </script>
+  </body>
+</html>
