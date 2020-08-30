@@ -92,12 +92,15 @@ class WFreq {
   sanitize(str) {
     str = str.trim();
     str = str.toLowerCase();
-    str = str.replace(/\.{3}/gm, "");
-    str = str.replace(/\-{2}/gm, "");
-    str = str.replace(/\'/g, '"');
-    str = str.replace(/\’/g, '"');
-    str = str.replace(/[\“\”]/g, "");
-    str = str.replace(/[\.\,\;\:\!\?\(\)\&]/g, " ");
+    str = str.replace(/[\.\,\;\:\!\?\(\)\&\[\]\{\}\#\$\@\%\~]/g, " ");
+    str = str.replace(/\.{3,}/gm, " ");
+    str = str.replace(/\-{2,}/gm, " ");
+    str = str.replace(/\s{2,}/gm, " ");
+    str = str.replace(/["„“‟”’〝〞〟‚‘‛❛❜'`]/g, "'");
+    str = str.replace(/'[sd]?(ll)?\s/g, " "); // remove 's 'll
+    str = str.replace(/\s'\s/g, " ");
+    str = str.replace(/\s'/g, " ");
+    str = str.replace(/'\s/g, " ");
     return str;
   }
 
